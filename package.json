@@ -1,10 +1,10 @@
 {
   "name": "cmd-watch",
   "description": "Registers a command executed on target path changes.",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gghez/cmd-watch"
+    "url": "git://github.com/gghez/cmd-watch.git"
   },
   "license": "MIT",
   "author": "Gregory GHEZ",

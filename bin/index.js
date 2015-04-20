@@ -1,4 +1,4 @@
-var exec, fs, getopt, install, opt, target, timer, wOpts;
+var exec, fs, getopt, opt, run, target, timer, wOpts;
 
 fs = require('fs');
 
@@ -10,7 +10,7 @@ opt = getopt.parseSystem();
 
 timer = null;
 
-install = function(cmd) {
+run = function(cmd) {
   var proc;
   console.log("Running " + cmd + "...");
   return proc = exec(cmd, function(stderr, stdout) {
@@ -36,7 +36,7 @@ if ((target = opt.options['target'] || '.')) {
       clearTimeout(timer);
     }
     return timer = setTimeout((function() {
-      return install(opt.options['command']);
+      return run(opt.options['command']);
     }), opt.options['retention'] || 1000);
   });
 } else {

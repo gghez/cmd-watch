@@ -14,7 +14,7 @@ getopt = require 'node-getopt'
 opt = getopt.parseSystem()
 timer = null
 
-install = (cmd) ->
+run = (cmd) ->
   console.log "Running #{cmd}..."
   proc = exec cmd, (stderr, stdout) ->
     console.error stderr if stderr
@@ -29,6 +29,6 @@ if (target = opt.options['target'] || '.')
   fs.watch target, wOpts, (event, filename) ->
   	console.log 'Watcher', event, filename
   	clearTimeout timer if timer
-  	timer = setTimeout (-> install opt.options['command']), opt.options['retention'] || 1000
+  	timer = setTimeout (-> run opt.options['command']), opt.options['retention'] || 1000
 else
   getopt.showHelp()

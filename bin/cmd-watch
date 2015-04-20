@@ -1,0 +1,49 @@
+#!/usr/bin/env node
+
+process.title = 'cmd-watch';
+
+var fs = require('fs');
+var exec = require('child_process').exec;
+var getopt = require('node-getopt').create(
+  [
+    ['d', 'target=ARG', 'Path to file or directory to watch'],
+    ['r', 'retention=ARG', 'Retention (in ms.) before command (default: 1000ms)'],
+    ['c', 'command=ARG', 'Command to execute after retention'],
+    ['', 'help', 'Display this help']
+  ]).bindHelp();
+
+var opt = getopt.parseSystem();
+var timer = null;
+
+function run(cmd) {
+  console.log("Running " + cmd + "...");
+  exec(cmd, function(stderr, stdout) {
+    if (stderr) {
+      console.error(stderr);
+    }
+    if (stdout) {
+      console.log(stdout);
+    }
+    console.log('Done.');
+  });
+}
+
+var target = opt.options['target'] || '.';
+if (target) {
+  var wOpts = {
+    persistent: true,
+    recursive: true
+  };
+  console.log('Watching', target);
+  fs.watch(target, wOpts, function(event, filename) {
+    console.log('Watcher', event, filename);
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout((function() {
+      return run(opt.options['command']);
+    }), opt.options['retention'] || 1000);
+  });
+} else {
+  getopt.showHelp();
+}

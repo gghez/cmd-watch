@@ -19,5 +19,9 @@
   "preferGlobal": true,
   "engines": {
     "node": ">=0.10.0"
-  }
+  },
+  "main": "bin/cmd-watch",
+  "files": [
+    "bin/cmd-watch"
+  ]
 }
